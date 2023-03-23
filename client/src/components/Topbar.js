@@ -44,7 +44,7 @@ function Topbar() {
             <span className={classes.topbarIconBadge}>1</span>
           </div>
         </div>
-        <img src='/assets/person/1.jpeg' alt="" className={classes.topbarImg} />
+        <img src='/assets/person/13.jpeg.png' alt="" className={classes.topbarImg} />
       </div>
     </div>
   );
