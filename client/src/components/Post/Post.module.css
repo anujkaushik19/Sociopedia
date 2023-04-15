@@ -4,6 +4,9 @@
     -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
     margin: 30px 0;
+    
+    background-color: white;
+    
   }
   .wrapper {
     padding: 10px;
@@ -36,13 +39,29 @@
   
 .center{
     margin: 20px 0;
+    
+}
+.div{
+  border: 1px solid red;
+  height: 10rem;
+}
+.postTopRight{
+  cursor: pointer;
 }
 
 .postImg{
     margin-top: 20px;
     width: 100%;
     max-height: 500px;
-    object-fit: contain;
+    object-fit: cover;
+   
+
+}
+.postVideo{
+  margin-top: 20px;
+  width: 100%;
+  object-fit: cover;
+
 }
 
 .bottom{
@@ -71,6 +90,31 @@
     cursor: pointer;
     border-bottom: 1px dashed gray;
     font-size: 15px;
+}
+.commentInput{
+  width: 24pc;
+  margin-left: 10px;
+  /* height: 6vh; */
+  border: none;
+}
+.addComment{
+  padding: 9px;
+  border: none;
+  background-color: rgb(14, 106, 14);
+  color: white;
+  border-radius: 6px;
+  margin-left: 39px;
+  cursor: pointer;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.picker{
+  height: 15rem;
+  width: 15rem;
+  border: 2px solid red;
+  object-fit: cover;
+  overflow-y: scroll;
+  overflow-x: scroll;
 }
   
   

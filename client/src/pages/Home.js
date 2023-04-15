@@ -8,6 +8,7 @@ import  Feed  from '../components/Feed/Feed';
 import RightBar from '../components/RightBar/RightBar';
 
 function Home(){
+    
     return <div>
          <Topbar/>
          <div className={classes.container}>

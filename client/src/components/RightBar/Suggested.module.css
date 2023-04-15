@@ -1,9 +1,11 @@
 .suggestedContainer {
     width: 20pc;
-    height: 60vh;
+    max-height: 60vh;
     background-color: white;
     margin-top: 20px;
     border-radius: 15px;
+    height: auto;
+    overflow-y: scroll;
    
   }
   .profileImage {

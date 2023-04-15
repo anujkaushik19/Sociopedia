@@ -1,19 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import classes from "./Topbar.module.css";
-
 
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function Topbar() {
+  const { user } = useContext(AuthContext);
+ 
+  const navigate = useNavigate();
+
+
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const logOutHandler = () => {
+    localStorage.removeItem("user");
+    navigate('/');
+    window.location.reload();
+    
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.left}>
-        <span className={classes.logo}>Sociopedia</span>
+        <NavLink to="/" className={classes.logo}>
+          Sociopedia
+        </NavLink>
       </div>
       <div className={classes.center}>
         <div className={classes.searchBar}>
@@ -28,7 +43,9 @@ function Topbar() {
       <div className={classes.right}>
         <div className={classes.topbarLinks}>
           <div className={classes.topbarLink}>Homepage</div>
-          <div className={classes.topbarLink}>Timeline</div>
+          <button className={classes.logOut} onClick={logOutHandler}>
+            Log Out
+          </button>
         </div>
         <div className={classes.topbarIcons}>
           <div className={classes.topbarIconItem}>
@@ -36,7 +53,9 @@ function Topbar() {
             <span className={classes.topbarIconBadge}>1</span>
           </div>
           <div className={classes.topbarIconItem}>
-            <ChatIcon />
+            <NavLink to='/messenger' style={{textDecoration:'none',color:'white'}}>
+              <ChatIcon />
+            </NavLink>
             <span className={classes.topbarIconBadge}>1</span>
           </div>
           <div className={classes.topbarIconItem}>
@@ -44,7 +63,13 @@ function Topbar() {
             <span className={classes.topbarIconBadge}>1</span>
           </div>
         </div>
-        <img src='/assets/person/13.jpeg.png' alt="" className={classes.topbarImg} />
+        <Link to={`/profile/${user?.username}`}>
+          <img
+            src={PF + user.profilePicture}
+            alt=""
+            className={classes.topbarImg}
+          />
+        </Link>
       </div>
     </div>
   );

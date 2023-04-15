@@ -1,0 +1,72 @@
+.profile{
+    display: flex;
+}
+.profileRight{
+  flex: 9;
+}
+.profileRightBottom{
+    display: flex;
+}
+.profileCover{
+    height: 320px;
+    position: relative;
+    
+}
+.profileCoverImg{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+.profileUserImg{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 150px;
+    border: 3px solid white;
+}
+.profileInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileInfoName{
+    font-size: 24px;
+}
+
+.profileInfoDesc{
+    font-weight: 300;
+    /* border: 2px solid red; */
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    
+
+}
+.follow{
+    /* border: 2px solid green; */
+    height: 100%;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.userFollowers{
+    font-weight: 500;
+    margin-left: 2rem;
+
+}
+.userFollowings{
+    font-weight: 500;
+    margin-left: 2.5rem;
+    margin-top: 4rem;
+
+}
