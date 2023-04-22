@@ -8,12 +8,28 @@ import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/Messenger/Messenger";
 import UpdateUser from "./components/Update/UpdateUser";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-import Resetpassword from "./pages/ForgotPassword/ResetPassword";
+import ResetPassword from "./pages/ForgotPassword/ResetPassword";
+import classes from './components/RightBar/Messages.module.css'
+import OtpVerify from "./pages/ForgotPassword/OtpVerify";
 
 function App() {
-  const { user } = useContext(AuthContext);
+
+  const messages = document.querySelector(`.${classes.messages}`);
+  // const message = messages.querySelectorAll(`.${classes.messages}`);
+  const messageSearch = document.querySelector(`.${classes.input}`);
+  console.log('messages',messages)
+  
+  const { user,verify } = useContext(AuthContext);
+  
+  
  
   const navigate = useNavigate();
+
+  // const searchMessage = ()=>{
+  //   const val = messageSearch.value.toLowerCase();
+  //   console.log(val)
+  // }
+  // messageSearch.addEventListener('keyup',searchMessage);
 
   return (
     <div>
@@ -57,6 +73,7 @@ function App() {
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/profile/updateInfo/:username" element={<UpdateUser/>}/>
         <Route path='/forgot/password' element={<ForgotPassword/>}/>
+        <Route path='/otp/verify' element={<OtpVerify/>}/>
       </Routes>
     </div>
   );

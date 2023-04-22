@@ -20,6 +20,13 @@ export const LoginStart = (userCredentials) => ({
     type: "UNFOLLOW",
     payload: userId,
   });
-
+  export const SaveOtp = (otp) => ({
+    type: "OTP",
+    payload: otp,
+  });
+  export const VerifyOtp = (bool) => ({
+    type: "VERIFY",
+    payload: bool,
+  });
   
   

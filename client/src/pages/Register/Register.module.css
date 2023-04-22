@@ -50,7 +50,7 @@
   outline: none;
 }
 .loginButton {
-  height: 50px;
+  height: 30px;
   border-radius: 10px;
   border: none;
   background-color: #1775ee;
@@ -58,15 +58,18 @@
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+  width: 50%;
+  align-self: center;
+  
 }
 .loginForgot {
   text-align: center;
   color: #1775ee;
 }
 .loginRegisterButton {
-  width: 60%;
+  width: 50%;
   align-self: center;
-  height: 50px;
+  height: 30px;
   border-radius: 10px;
   border: none;
   background-color: #42b72a;

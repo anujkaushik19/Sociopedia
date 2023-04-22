@@ -11,11 +11,15 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import UserWidget from "./UserInfo";
 import UserInfo from "./UserInfo";
+import Messages from "./Messages";
+import DoneIcon from '@mui/icons-material/Done';
 
 function RightBar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const [followers, setFollowers] = useState([]);
+  const[request,setRequest] = useState(false);
+  
 
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [fileCover, setFileCover] = useState(null);
@@ -55,20 +59,31 @@ function RightBar({ user }) {
 
   const followHandler = async () => {
     try {
-      if (followed) {
-        await axios.put("/users/" + user._id + "/unfollow", {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "UNFOLLOW", payload: user._id });
-      } else {
-        await axios.put("/users/" + user._id + "/follow", {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "FOLLOW", payload: user._id });
+
+     await axios.put('/users/request/'+user._id,{
+      userId : currentUser._id,
+      values : {
+        username : currentUser.username,
+        profilePicture:currentUser.profilePicture
       }
+     });
+
+ 
+      // if (followed) {
+      //   await axios.put("/users/" + user._id + "/unfollow", {
+      //     userId: currentUser._id,
+      //   });
+      //   dispatch({ type: "UNFOLLOW", payload: user._id });
+      // } else {
+      //   await axios.put("/users/" + user._id + "/follow", {
+      //     userId: currentUser._id,
+      //   });
+      //   dispatch({ type: "FOLLOW", payload: user._id });
+      // }
     } catch (err) {
       console.log(err);
     }
+    setRequest(true);
     setFollowed(!followed);
   };
 
@@ -105,7 +120,7 @@ function RightBar({ user }) {
 
   const HomeRightBar = () => {
     return (
-      <>
+      <div className={classes.homebar}>
         <div className={classes.birthdayContainer}>
           <img src="assets/gift.png" alt="" className={classes.birthdayImg} />
           <span className={classes.birthdayText}>
@@ -114,6 +129,7 @@ function RightBar({ user }) {
           </span>
         </div>
         <img src="assets/ad.png" alt="" className={classes.rightbarAd} />
+        <Messages/>
         <Suggested />
         {/* <div className={classes.friends}>
           <h4 className={classes.rightbarTitle}>Online Friends</h4>
@@ -123,7 +139,7 @@ function RightBar({ user }) {
             ))}
           </ul>
         </div> */}
-      </>
+      </div>
     );
   };
 
@@ -132,8 +148,8 @@ function RightBar({ user }) {
       <div>
         {user.username !== currentUser.username && (
           <button className={classes.followBtn} onClick={followHandler}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <RemoveIcon /> : <AddIcon />}
+            {request ? "Request Sent" : "Follow"}
+            {request ? <DoneIcon /> : <AddIcon />}
           </button>
         )}
         {user.username === currentUser.username && (

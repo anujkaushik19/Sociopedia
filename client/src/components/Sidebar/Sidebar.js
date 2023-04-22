@@ -14,6 +14,7 @@ import EventIcon from "@mui/icons-material/Event";
 import SchoolIcon from "@mui/icons-material/School";
 import {Users} from '../../dummydata'
 import CloseFriend from "../closeFriend/CloseFriend";
+import FriendRequests from "../RightBar/FriendRequests";
 
 function Sidebar() {
   return (
@@ -63,7 +64,7 @@ function Sidebar() {
            {/* {Users.map(user=>(
             <CloseFriend user={user} key={user.id}/>
            ))} */}
-           <CloseFriend/>
+          <FriendRequests/>
            
            
         </ul>

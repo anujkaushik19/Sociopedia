@@ -1,0 +1,86 @@
+.messages {
+  background: white;
+  border-radius: 15px;
+  padding: 1rem 1rem;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.searchBar {
+  width: 100%;
+  height: 30px;
+  background-color: lightgray;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+}
+.input {
+  background: transparent;
+  width: 18vw;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  border: none;
+}
+.input:focus {
+  border: none;
+  outline: none;
+}
+
+.category {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.category h6 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 4px solid lightgray;
+  padding-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.message {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start;
+}
+.message:last-child {
+  margin: 0;
+}
+.message p {
+  font-size: 0.6rem;
+  color: gray;
+}
+.text-bold {
+  font-weight: 500;
+}
+
+.active2 {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: green;
+  position: absolute;
+  bottom: 6px;
+  right: 11px;
+}
+.message-requests{
+    color: blue;
+}
+.profile-photo {
+  position: relative;
+  overflow: visible;
+}
+.profile-photo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}

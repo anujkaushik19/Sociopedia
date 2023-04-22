@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useContext } from "react";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom'
+import { AuthContext } from "../../context/AuthContext";
 
 
 export default function ForgotPassword() {
+  const emailInputRef = useRef("");
+  const navigate = useNavigate();
+  const {dispatch,otp} = useContext(AuthContext);
+
+  const submitHandler = async (event) => {
+    const emailValue = emailInputRef.current.value;
     
+    event.preventDefault();
+    try {
+      const response = await axios.post("/auth/email", {
+        email: emailValue,
+      });
+
+      console.log('mail response',response.data)
+      dispatch({ type: "OTP", payload: response.data });
+      console.log('anuj')
+
+    } catch (err) {
+      console.log(err);
+    }
+   
+    navigate('/otp/verify')
+  };
+
+  console.log('stored otp ',otp)
+
   
+
   return (
     <div
       style={{
@@ -20,12 +49,24 @@ export default function ForgotPassword() {
           padding: "20px",
           margin: "auto",
           borderRadius: "10px",
-          backgroundColor: "black",
+          backgroundColor: "lightGray",
         }}
       >
-        <h4 style={{color:'white',display:'flex',justifyContent:'center'}}>OTP VERIFICATION</h4>
-        <p style={{ color: "white" }}>Enter your Email</p>
-        <form style={{ display: "flex", flexDirection: "column" }}>
+        <h4
+          style={{ color: "black", display: "flex", justifyContent: "center" }}
+        >
+          OTP VERIFICATION
+        </h4>
+        <p style={{ color: "black", textAlign: "center" }}>Enter your Email</p>
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          onSubmit={submitHandler}
+        >
           <input
             type={"text"}
             placeholder="Email"
@@ -35,21 +76,22 @@ export default function ForgotPassword() {
               margin: "10px 0px",
               padding: "10px",
               borderRadius: "10px",
+              width: "300px",
             }}
-           
+            ref={emailInputRef}
           />
           <button
             style={{
               width: "40%",
               border: "none",
               padding: "10px 20px",
-              backgroundColor: "white",
-              color: "black",
+              backgroundColor: "black",
+              color: "white",
               borderRadius: "10px",
               margin: "20px 0px",
               cursor: "pointer",
             }}
-           
+            type="submit"
           >
             Send
           </button>

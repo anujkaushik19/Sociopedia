@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./Register.module.css";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Register() {
   const email = useRef();
@@ -13,38 +14,45 @@ function Register() {
   const from = useRef();
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
+  const { verify } = useContext(AuthContext);
+  console.log("registration verify ", verify);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (passwordAgain.current.value !== password.current.value) {
-      passwordAgain.current.setCustomValidity("Passwords don't match!");
-    } else {
-      const user = {
-        username: username.current.value,
-        email: email.current.value,
-        password: password.current.value,
-        occupation: occupation.current.value,
-        from: from.current.value,
-      };
-      if (file) {
-        const data = new FormData();
-        const fileName = Date.now() + file.name;
-        data.append("name", fileName);
-        data.append("file", file);
-        user.profilePicture = fileName;
+    if (verify) {
+      if (passwordAgain.current.value !== password.current.value) {
+        passwordAgain.current.setCustomValidity("Passwords don't match!");
+      } else {
+        const user = {
+          username: username.current.value,
+          email: email.current.value,
+          password: password.current.value,
+          occupation: occupation.current.value,
+          from: from.current.value,
+        };
+        if (file) {
+          const data = new FormData();
+          const fileName = Date.now() + file.name;
+          data.append("name", fileName);
+          data.append("file", file);
+          user.profilePicture = fileName;
+          try {
+            await axios.post("/upload", data);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
         try {
-          await axios.post("/upload", data);
+          await axios.post("/auth/register", user);
+          navigate("/login");
         } catch (err) {
           console.log(err);
         }
       }
-
-      try {
-        await axios.post("/auth/register", user);
-        navigate("/login");
-      } catch (err) {
-        console.log(err);
-      }
+    }
+    else{
+      alert('please verify otp!')
     }
   };
   return (
@@ -112,12 +120,26 @@ function Register() {
                 onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
+            <button
+              style={{ color: "white", textAlign: "center" }}
+              className={classes.loginButton}
+              onClick={() => navigate("/forgot/password")}
+            >
+              Otp verification
+            </button>
 
             <button className={classes.loginButton} type="submit">
               Sign Up
             </button>
 
-            <Link to="/login" style={{display:'flex',justifyContent:'center',textDecoration:'none'}}>
+            <Link
+              to="/login"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textDecoration: "none",
+              }}
+            >
               <button className={classes.loginRegisterButton}>
                 Log into Account
               </button>

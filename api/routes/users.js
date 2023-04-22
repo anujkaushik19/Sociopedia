@@ -133,8 +133,8 @@ router.get("/all", async (req, res) => {
 
 //get user followers
 
-router.get('/followers/:userId', async(req,res)=>{
-  try{
+router.get("/followers/:userId", async (req, res) => {
+  try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
       user.followers.map((friendId) => {
@@ -147,10 +147,21 @@ router.get('/followers/:userId', async(req,res)=>{
       friendList.push({ _id, username, profilePicture });
     });
     res.status(200).json(friendList);
-  }
-  catch(err){
+  } catch (err) {
     res.status(200).json(err);
   }
-})
+});
+router.put("/request/:userId", async (req, res) => {
+  try {
+    console.log("values", req.body.values);
+    const user = await User.findById(req.params.userId); // user to request
+
+    await user.updateOne({ $push: { requests: req.body.values } });
+
+    res.status(200).json("user has been updated");
+  } catch (err) {
+    res.status(500).json("failed");
+  }
+});
 
 module.exports = router;

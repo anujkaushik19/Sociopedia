@@ -1,0 +1,29 @@
+.friend-requests {
+  margin-top: 1rem;
+}
+.request{
+    background: white;
+    padding: 1rem 1rem;
+    border-radius: 15px;
+    margin-bottom: 0.7rem;
+}
+.info{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.action{
+    display: flex;
+    gap: 1rem;
+}
+.wrapper{
+    margin-top: 1rem;
+}
+.profile-photo img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  
