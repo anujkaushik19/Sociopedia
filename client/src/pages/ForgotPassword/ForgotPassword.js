@@ -10,23 +10,28 @@ export default function ForgotPassword() {
   const {dispatch,otp} = useContext(AuthContext);
 
   const submitHandler = async (event) => {
-    const emailValue = emailInputRef.current.value;
-    
     event.preventDefault();
+    const emailValue = emailInputRef.current.value;
+    console.log('email value is',emailValue)
+    console.log('anuj')
+   
     try {
       const response = await axios.post("/auth/email", {
         email: emailValue,
       });
 
       console.log('mail response',response.data)
+     
       dispatch({ type: "OTP", payload: response.data });
-      console.log('anuj')
+      
 
     } catch (err) {
       console.log(err);
     }
    
     navigate('/otp/verify')
+    // navigate('/register')
+  
   };
 
   console.log('stored otp ',otp)

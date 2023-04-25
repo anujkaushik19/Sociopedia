@@ -87,6 +87,7 @@ router.put("/update/:userId", async (req, res) => {
 // send otp verification email
 
 router.post("/email", async (req, res) => {
+  console.log('triggered')
   try {
     const { email } = req.body;
     const otp = Math.floor(Math.random() * 10000);
@@ -97,7 +98,7 @@ router.post("/email", async (req, res) => {
       method: "post",
       url: "https://api.sendinblue.com/v3/smtp/email",
       headers: {
-        "api-key": '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',
+        "api-key": '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',
         "content-type": "application/json",
       },
       data: {

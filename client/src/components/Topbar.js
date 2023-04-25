@@ -18,6 +18,7 @@ function Topbar() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const logOutHandler = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("fieldvalues");
     navigate('/');
     window.location.reload();
     

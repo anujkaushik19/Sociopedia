@@ -1,5 +1,5 @@
 import Login from "./pages/Login/Login";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Profile from "./components/Profile/Profile";
 import Home from "./pages/Home";
 import Register from "./pages/Register/Register";
@@ -24,6 +24,19 @@ function App() {
   
  
   const navigate = useNavigate();
+  console.log('user is',user);
+  useEffect(()=>{
+    localStorage.setItem("fieldvalues", JSON.stringify({
+      username : user?.username,
+      email:user?.email,
+      // password:user.current.value,
+      // passwordAgain:passwordAgain.current.value,
+      from:user?.from,
+      occupation:user?.occupation,
+    }));
+
+  },[])
+  
 
   // const searchMessage = ()=>{
   //   const val = messageSearch.value.toLowerCase();

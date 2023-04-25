@@ -12,6 +12,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { user, isFetching, error, dispatch } = useContext(AuthContext);
+  console.log('user is',user);
 
   const registerHandler = () => {
     navigate("/register");
@@ -26,8 +27,18 @@ function Login() {
       },
       dispatch
     );
+    
+    localStorage.setItem("fieldvalues", JSON.stringify({
+      username : user?.username,
+      email:user?.email,
+      // password:user.current.value,
+      // passwordAgain:passwordAgain.current.value,
+      from:user?.from,
+      occupation:user?.occupation,
+    }));
     navigate('/')
   };
+  
 
   return (
     <div className={classes.login}>
