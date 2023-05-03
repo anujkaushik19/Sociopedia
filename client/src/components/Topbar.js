@@ -69,6 +69,7 @@ function Topbar() {
             src={PF + user.profilePicture}
             alt=""
             className={classes.topbarImg}
+            
           />
         </Link>
       </div>

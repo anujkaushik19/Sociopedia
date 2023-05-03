@@ -12,20 +12,24 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import UserWidget from "./UserInfo";
 import UserInfo from "./UserInfo";
 import Messages from "./Messages";
-import DoneIcon from '@mui/icons-material/Done';
+import DoneIcon from "@mui/icons-material/Done";
 
 function RightBar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const [followers, setFollowers] = useState([]);
-  const[request,setRequest] = useState(false);
-  
+  const [request, setRequest] = useState(false);
 
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [fileCover, setFileCover] = useState(null);
-  const [followed, setFollowed] = useState(
-    currentUser.followings.includes(user?._id)
-  );
+  const bool =
+    currentUser.followings.includes(user?._id) ||
+    currentUser.followers.includes(user?._id);
+  console.log("boliboli is", bool);
+  const [followed, setFollowed] = useState(bool);
+  console.log("user is", user);
+  console.log("boolean is", followed);
+  console.log('currrrr is ',currentUser)
 
   useEffect(() => {
     const getFriends = async () => {
@@ -41,7 +45,10 @@ function RightBar({ user }) {
   }, [user]);
 
   useEffect(() => {
-    setFollowed(currentUser.followings.includes(user?._id));
+    const bool =
+      currentUser.followings.includes(user?._id) ||
+      currentUser.followers.includes(user?._id);
+    setFollowed(bool);
   }, [currentUser, user]);
 
   useEffect(() => {
@@ -59,32 +66,37 @@ function RightBar({ user }) {
 
   const followHandler = async () => {
     try {
+      if(!followed){
+      const res = await axios.put("/users/request/" + user._id, {
+        userId: currentUser._id,
+        values: {
+          username: currentUser.username,
+          profilePicture: currentUser.profilePicture,
+          id: currentUser._id,
+        },
+      })
+     
+      setRequest(true);
+    };
 
-     await axios.put('/users/request/'+user._id,{
-      userId : currentUser._id,
-      values : {
-        username : currentUser.username,
-        profilePicture:currentUser.profilePicture
+      if (followed) {
+        const res = await axios.put("/users/" + user._id + "/unfollow", {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "UNFOLLOW", payload: user._id });
+        // } else {
+        //   await axios.put("/users/" + user._id + "/follow", {
+        //     userId: currentUser._id,
+        //   });
+        //   dispatch({ type: "FOLLOW", payload: user._id });
+        // }
+        if(res.status ==200)setFollowed(false);
       }
-     });
-
- 
-      // if (followed) {
-      //   await axios.put("/users/" + user._id + "/unfollow", {
-      //     userId: currentUser._id,
-      //   });
-      //   dispatch({ type: "UNFOLLOW", payload: user._id });
-      // } else {
-      //   await axios.put("/users/" + user._id + "/follow", {
-      //     userId: currentUser._id,
-      //   });
-      //   dispatch({ type: "FOLLOW", payload: user._id });
-      // }
     } catch (err) {
       console.log(err);
     }
-    setRequest(true);
-    setFollowed(!followed);
+    
+    
   };
 
   const submitHandler = async (event) => {
@@ -106,7 +118,7 @@ function RightBar({ user }) {
       if (fileCover.type === "image/jpeg") {
         updatedUser.coverPicture = fileName;
       }
-      
+
       try {
         await axios.post("/upload", data);
       } catch (err) {}
@@ -129,7 +141,7 @@ function RightBar({ user }) {
           </span>
         </div>
         <img src="assets/ad.png" alt="" className={classes.rightbarAd} />
-        <Messages/>
+        <Messages />
         <Suggested />
         {/* <div className={classes.friends}>
           <h4 className={classes.rightbarTitle}>Online Friends</h4>
@@ -146,10 +158,15 @@ function RightBar({ user }) {
   const ProfileRightBar = () => {
     return (
       <div>
-        {user.username !== currentUser.username && (
+        {user.username !== currentUser.username && !followed && (
           <button className={classes.followBtn} onClick={followHandler}>
             {request ? "Request Sent" : "Follow"}
             {request ? <DoneIcon /> : <AddIcon />}
+          </button>
+        )}
+        {user.username !== currentUser.username && followed && (
+          <button className={classes.followBtn} onClick={followHandler}>
+            {followed ? "Unfollow" : ""}
           </button>
         )}
         {user.username === currentUser.username && (
@@ -200,23 +217,24 @@ function RightBar({ user }) {
         <hr />
         <h4 className={classes.rightbarTitle}>User Followers</h4>
         <div className={classes.rightbarFollowings}>
-          {followers.length>0 && (followers.map((friend) => (
-            <Link
-              to={"/profile/" + friend.username}
-              style={{ textDecoration: "none",color:'black' }}
-            >
-              <div className={classes.rightbarFollowing}>
-                <img
-                  src={PF + friend.profilePicture}
-                  alt=""
-                  className={classes.rightbarFollowingImg}
-                />
-                <span className={classes.rightbarFollowingName}>
-                  {friend.username}
-                </span>
-              </div>
-            </Link>
-          )))}
+          {followers.length > 0 &&
+            followers.map((friend) => (
+              <Link
+                to={"/profile/" + friend.username}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <div className={classes.rightbarFollowing}>
+                  <img
+                    src={PF + friend.profilePicture}
+                    alt=""
+                    className={classes.rightbarFollowingImg}
+                  />
+                  <span className={classes.rightbarFollowingName}>
+                    {friend.username}
+                  </span>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     );

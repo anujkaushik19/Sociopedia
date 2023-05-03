@@ -58,6 +58,7 @@ router.get("/", async (req, res) => {
 // get user's friends
 
 router.get("/friends/:userId", async (req, res) => {
+  console.log('triggered by')
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
@@ -103,14 +104,22 @@ router.put("/:id/follow", async (req, res) => {
 router.put("/:id/unfollow", async (req, res) => {
   if (req.body.userId !== req.params.id) {
     try {
+      
       const user = await User.findById(req.params.id);
       const currentUser = await User.findById(req.body.userId);
       if (user.followers.includes(req.body.userId)) {
         await user.updateOne({ $pull: { followers: req.body.userId } });
         await currentUser.updateOne({ $pull: { followings: req.params.id } });
         res.status(200).json("user has been unfollowed");
-      } else {
-        res.status(403).json("you dont follow this user");
+      }
+      else if (user.followings.includes(req.body.userId)) {
+        await user.updateOne({ $pull: { followings: req.body.userId } });
+        await currentUser.updateOne({ $pull: { followers: req.params.id } });
+        res.status(200).json("user has been unfollowed");
+
+      }
+      else {
+        res.status(403).json("user can't be unfollowed");
       }
     } catch (err) {
       res.status(500).json(err);
@@ -151,6 +160,9 @@ router.get("/followers/:userId", async (req, res) => {
     res.status(200).json(err);
   }
 });
+
+// follow request 
+
 router.put("/request/:userId", async (req, res) => {
   try {
     console.log("values", req.body.values);
@@ -163,5 +175,21 @@ router.put("/request/:userId", async (req, res) => {
     res.status(500).json("failed");
   }
 });
+
+// remove follow request 
+
+router.put("/request/remove/:userId", async (req, res) => {
+  try {
+    console.log("values", req.body.values);
+    const user = await User.findById(req.params.userId); // user to request
+
+    await user.updateOne({ $pull: { requests: req.body.values}});
+
+    res.status(200).json("request has been removed");
+  } catch (err) {
+    res.status(500).json("failed");
+  }
+});
+
 
 module.exports = router;

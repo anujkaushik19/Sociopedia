@@ -75,6 +75,7 @@ function Post({ post }) {
   };
 
   const addCommentHandler = () => {
+
     addComment();
   };
 

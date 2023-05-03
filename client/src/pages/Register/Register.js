@@ -6,48 +6,50 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 function Register() {
-  const email = useRef('');
-  const username = useRef('');
-  const password = useRef('');
-  const passwordAgain = useRef('');
-  const occupation = useRef('');
-  const from = useRef('');
+  const email = useRef("");
+  const username = useRef("");
+  const password = useRef("");
+  const passwordAgain = useRef("");
+  const occupation = useRef("");
+  const from = useRef("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const { verify } = useContext(AuthContext);
   console.log("registration verify ", verify);
   const values = JSON.parse(localStorage.getItem("fieldvalues"));
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem("fieldvalues", JSON.stringify(values));
-    if(values){
-    email.current.value=values?.email;
-    username.current.value = values?.username;
-    password.current.value=values?.password;
-    occupation.current.value = values?.occupation;
-    from.current.value=values?.from;
-    passwordAgain.current.value=values?.passwordAgain;
+    if (values !== null) {
+      email.current.value = values?.email === undefined ? "" : values.email;
+      username.current.value =
+        values?.username === undefined ? "" : values.username;
+      password.current.value =
+        values?.password === undefined ? "" : values.password;
+      occupation.current.value =
+        values?.occupation === undefined ? "" : values.occupation;
+      from.current.value = values?.from === undefined ? "" : values.from;
+      passwordAgain.current.value =
+        values?.passwordAgain === undefined ? "" : values.passwordAgain;
     }
-  },[])
-  
+  }, [values]);
 
-  const handler = ()=>{
-    localStorage.setItem("fieldvalues", JSON.stringify({
-      username : username.current.value,
-      email:email.current.value,
-      password:password.current.value,
-      passwordAgain:passwordAgain.current.value,
-      from:from.current.value,
-      occupation:occupation.current.value,
-     
-    }));
-  }
- 
-  
+  const handler = () => {
+    localStorage.setItem(
+      "fieldvalues",
+      JSON.stringify({
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+        passwordAgain: passwordAgain.current.value,
+        from: from.current.value,
+        occupation: occupation.current.value,
+      })
+    );
+  };
 
-  
-  console.log('field values',values)
-  console.log('file is' ,file)
+  console.log("field values", values);
+  console.log("file is", file);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -61,7 +63,7 @@ function Register() {
           password: password.current.value,
           occupation: occupation.current.value,
           from: from.current.value,
-          profilePicture:file
+          profilePicture: file,
           // username:values.username,
           // email:values.email,
           // password:values.password,
@@ -81,6 +83,7 @@ function Register() {
             console.log(err);
           }
         }
+        console.log('user code',user)
 
         try {
           await axios.post("/auth/register", user);
@@ -89,9 +92,8 @@ function Register() {
           console.log(err);
         }
       }
-    }
-    else{
-      alert('please verify otp!')
+    } else {
+      alert("please verify otp!");
     }
   };
   return (
@@ -114,7 +116,6 @@ function Register() {
               onKeyUp={handler}
               // value={values?.username}
               value={username.current.value}
-              
             />
             <input
               placeholder="Email"
@@ -166,27 +167,32 @@ function Register() {
               // value={values?.from}
               value={from.current.value}
             />
-            {verify && <div className={classes.imageContainer}>
-              <label htmlFor="file" style={{ color: "white", fontWeight: 500 }}>
-                Profile Picture
-              </label>
-              <input
-                type="file"
-                className={classes.inputImage}
-                id="file"
-                accept=".png,.jpeg,.jpg"
-                onChange={(e) => setFile(e.target.files[0])}
-                
-                
-              />
-            </div>}
-            {!verify && <button
-              style={{ color: "white", textAlign: "center" }}
-              className={classes.loginButton}
-              onClick={() => navigate("/forgot/password")}
-            >
-              Otp verification
-            </button>}
+            {verify && (
+              <div className={classes.imageContainer}>
+                <label
+                  htmlFor="file"
+                  style={{ color: "white", fontWeight: 500 }}
+                >
+                  Profile Picture
+                </label>
+                <input
+                  type="file"
+                  className={classes.inputImage}
+                  id="file"
+                  accept=".png,.jpeg,.jpg"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+              </div>
+            )}
+            {!verify && (
+              <button
+                style={{ color: "white", textAlign: "center" }}
+                className={classes.loginButton}
+                onClick={() => navigate("/forgot/password")}
+              >
+                Otp verification
+              </button>
+            )}
 
             <button className={classes.loginButton} type="submit">
               Sign Up

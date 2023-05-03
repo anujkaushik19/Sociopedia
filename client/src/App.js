@@ -83,7 +83,7 @@ function App() {
             </>
           }
         />
-        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/profile/:username" element={<Profile bool={true} />} />
         <Route path="/profile/updateInfo/:username" element={<UpdateUser/>}/>
         <Route path='/forgot/password' element={<ForgotPassword/>}/>
         <Route path='/otp/verify' element={<OtpVerify/>}/>

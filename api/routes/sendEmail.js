@@ -9,7 +9,7 @@ router.get("/email", async (req, res) => {
         method: "post",
         url: "https://api.sendinblue.com/v3/smtp/email",
         headers: {
-          "api-key": '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',
+          "api-key": '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',
           "content-type": "application/json",
         },
         data: {

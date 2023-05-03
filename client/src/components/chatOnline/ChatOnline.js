@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react';
 import classes from './ChatOnline.module.css'
+import axios from 'axios';
 
-function ChatOnline() {
+function ChatOnline({onlineUsers,currentId,setCurrentChat}) {
+
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+    const [friends,setFriends] = useState([])
+    const [onlineFriends,setOnlinefriends] = useState([])
+
+    
+    console.log('friends are',friends)
   return (
     <div className={classes.chatOnline}>
         <div className={classes.chatOnlineFriend}>

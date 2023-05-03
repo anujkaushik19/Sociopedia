@@ -23,7 +23,7 @@ const AuthReducer = (state, action) => {
         ...state,
         user: {
           ...state.user,
-          followings: [...state.user.followings, action.payload],
+          followers: [...state.user.followers, action.payload],
         },
       };
     case "UNFOLLOW":
@@ -34,10 +34,13 @@ const AuthReducer = (state, action) => {
           followings: state.user.followings.filter(
             (following) => following !== action.payload
           ),
+          followers: state.user.followers.filter(
+            (follower) => follower !== action.payload
+          ),
         },
       };
     case "OTP": {
-      console.log('inside')
+      console.log("inside");
       return {
         ...state,
         otp: action.payload,
@@ -46,9 +49,25 @@ const AuthReducer = (state, action) => {
     case "VERIFY": {
       return {
         ...state,
-        verify: action.payload
+        verify: action.payload,
       };
     }
+    case "REMOVE REQUEST": {
+      console.log("triggered");
+      console.log("id is", action.payload);
+      console.log("state before update is", state.user);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          requests: state.user.requests.filter(
+            (request) => request.id !== action.payload
+          ),
+        },
+      };
+    }
+   
+
     default:
       return state;
   }

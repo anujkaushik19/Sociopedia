@@ -28,5 +28,11 @@ export const LoginStart = (userCredentials) => ({
     type: "VERIFY",
     payload: bool,
   });
+  export const RequestCancel = (id) => ({
+    type: "REMOVE REQUEST",
+    payload: id,
+  });
+ 
+  
   
   

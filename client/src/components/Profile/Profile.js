@@ -7,7 +7,7 @@ import classes from "./Profile.module.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function Profile() {
+function Profile({bool}) {
   const [user, setUser] = useState({});
 
   const params = useParams();
@@ -16,9 +16,12 @@ function Profile() {
       const user = await axios.get(`/users?username=${params.username}`);
 
       setUser(user.data);
+      
     };
     fetchUser();
+    
   }, [params.username]);
+  
 
   const [cover, setCover] = useState(user.coverPicture === "");
 

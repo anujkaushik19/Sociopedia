@@ -8,6 +8,7 @@ require("dotenv").config();
 
 //REGISTER a user
 router.post("/register", async (req, res) => {
+  console.log('user is',req.body);
   try {
     //generate new password
     const salt = await bcrypt.genSalt(10);
@@ -24,7 +25,7 @@ router.post("/register", async (req, res) => {
     });
 
     //save user and respond
-    console.log(newUser);
+    // console.log(newUser);
     const user = await newUser.save();
     console.log("done");
     res.status(200).json(user);
@@ -98,7 +99,7 @@ router.post("/email", async (req, res) => {
       method: "post",
       url: "https://api.sendinblue.com/v3/smtp/email",
       headers: {
-        "api-key": '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',
+        "api-key": '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',
         "content-type": "application/json",
       },
       data: {
