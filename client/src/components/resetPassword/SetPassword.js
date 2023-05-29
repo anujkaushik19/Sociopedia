@@ -1,36 +1,31 @@
-import classes from "./Login.module.css";
+import classes from "./SetPassword.module.css";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { loginCall } from "../../api-calls";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-  const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const emailInputRef = useRef();
   const navigate = useNavigate();
 
   const { user, isFetching, error, dispatch } = useContext(AuthContext);
-  console.log('user is',user);
-
-  const registerHandler = () => {
-    navigate("/register");
-  };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    loginCall(
-      {
+
+    try {
+      axios.put("/auth/password", {
         email: emailInputRef.current.value,
         password: passwordInputRef.current.value,
-      },
-      dispatch
-    );
-    
-    navigate('/')
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  
 
   return (
     <div className={classes.login}>
@@ -58,31 +53,7 @@ function Login() {
               minLength="6"
               ref={passwordInputRef}
             />
-            <button className={classes.loginButton} disabled={isFetching}>
-              {isFetching ? <CircularProgress size="20px" /> : "Log In"}
-            </button>
-            <Link
-              to={"/forgot/password"}
-              state={{forgotpassword:true}}
-              style={{
-                textDecoration: "none",
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <span className={classes.loginForgot}>Forgot Password?</span>
-            </Link>
-            <button
-              className={classes.loginRegisterButton}
-              onClick={registerHandler}
-            >
-              {isFetching ? (
-                <CircularProgress size="20px" />
-              ) : (
-                "Create a new account"
-              )}
-            </button>
+            <button className={classes.loginButton}>Reset Password</button>
           </form>
         </div>
       </div>

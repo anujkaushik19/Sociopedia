@@ -6,11 +6,14 @@ import { AuthContext } from "../../context/AuthContext";
 export default function OtpVerify() {
   const otpInputRef = useRef();
   const navigate = useNavigate();
-  const { otp, verify, dispatch,user } = useContext(AuthContext);
+  const { otp, verify, dispatch, user } = useContext(AuthContext);
   console.log("stored otp ", otp);
-  const {state} = useLocation();
-  console.log('state is',state);
-  const update = state.updateUser;
+  const { state } = useLocation();
+  console.log("state is", state);
+  const update = state?.updateUser;
+  const forgotpassword = state?.forgotpassword;
+  console.log('update is',update)
+  console.log('forgot password is',forgotpassword)
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -20,16 +23,18 @@ export default function OtpVerify() {
     } else {
       dispatch({ type: "VERIFY", payload: true });
     }
-    if(verify){
-      console.log('val is',update)
-        if(update){
-        navigate('/profile/updateInfo/'+user.username)}
-        else{
-          navigate('/register')
-        }
+    console.log('verified is',verify);
+    if (verify) {
+      console.log("val is", update);
+      if (update) {
+        navigate("/profile/updateInfo/" + user.username);
+      } else if (forgotpassword) {
+        navigate("/set/password");
+      }
+    } else {
+      navigate("/register");
     }
   };
-  
 
   return (
     <div

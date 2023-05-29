@@ -11,6 +11,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import classes from './components/RightBar/Messages.module.css'
 import OtpVerify from "./pages/ForgotPassword/OtpVerify";
+import SetPassword from "./components/resetPassword/SetPassword";
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
         <Route path='/forgot/password' element={<ForgotPassword/>}/>
         
         <Route path='/otp/verify' element={<OtpVerify/>}/>
+        <Route path='/set/password' element={<SetPassword/>}/>
         
       </Routes>
     </div>

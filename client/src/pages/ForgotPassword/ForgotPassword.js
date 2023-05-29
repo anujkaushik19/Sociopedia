@@ -9,8 +9,8 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
   const {dispatch,otp} = useContext(AuthContext);
   const {state} = useLocation();
-   console.log(state.updateuser)
-  
+   
+  console.log("forgot",state);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -33,7 +33,13 @@ export default function ForgotPassword() {
       console.log(err);
     }
    
-    navigate('/otp/verify',{state:{updateUser:state.updateuser}});
+    if(state?.updateuser){
+      navigate('/otp/verify',{state:{updateUser:state.updateuser}});
+    }
+    else if(state?.forgotpassword){
+      navigate('/otp/verify',{state:{forgotpassword:state.forgotpassword}});
+
+    }
     // navigate('/register')
   
   };

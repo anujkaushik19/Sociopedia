@@ -136,4 +136,41 @@ router.post("/email", async (req, res) => {
   }
 });
 
+// reset password 
+
+router.put("/password", async (req, res) => {
+  try {
+    if (req.body.password) {
+      try {
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+    }
+
+    const user = await User.findOne({email:req.body.email})
+    console.log("find out",user);
+    const updatedUser = await User.updateOne(
+      { _id: user._id },
+      {
+        username: user.username,
+        email: user.email,
+        password: req.body.password,
+        occupation: user.occupation,
+        from: user.from,
+        profilePicture: user.profilePicture,
+        coverPicture: user.coverPicture,
+        desc: user.desc,
+      }
+    );
+    console.log('updated is',updatedUser)
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
 module.exports = router;
