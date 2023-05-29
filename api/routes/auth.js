@@ -6,6 +6,9 @@ const axios = require('axios')
 // env variables
 require("dotenv").config();
 
+
+const url = process.env.EMAIL_API_KEY;
+
 //REGISTER a user
 router.post("/register", async (req, res) => {
   console.log('user is',req.body);
@@ -25,7 +28,7 @@ router.post("/register", async (req, res) => {
     });
 
     //save user and respond
-    // console.log(newUser);
+    console.log('new iser is',newUser);
     const user = await newUser.save();
     console.log("done");
     res.status(200).json(user);
@@ -45,12 +48,14 @@ router.post("/login", async (req, res) => {
       req.body.password,
       user.password
     );
-    !validPassword && res.status(400).json("wrong password");
+    const validity = req.body.password === user.password;
+    !validPassword && !validity &&  res.status(400).json("wrong password");
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 
 // UPDATE A USER
 
@@ -99,7 +104,7 @@ router.post("/email", async (req, res) => {
       method: "post",
       url: "https://api.sendinblue.com/v3/smtp/email",
       headers: {
-        "api-key": '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',
+        "api-key": url,
         "content-type": "application/json",
       },
       data: {

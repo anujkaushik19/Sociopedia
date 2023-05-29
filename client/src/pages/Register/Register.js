@@ -188,7 +188,7 @@ function Register() {
               <button
                 style={{ color: "white", textAlign: "center" }}
                 className={classes.loginButton}
-                onClick={() => navigate("/forgot/password")}
+                onClick={() => navigate("/forgot/password",{state:{id:1,updatuser:false}})}
               >
                 Otp verification
               </button>

@@ -208,7 +208,7 @@ function UserInfo({ user }) {
             10
           </p>
         </div>
-        <button className='edit' onClick={()=>navigate('/profile/updateInfo/'+currentUser.username)}>Edit Info</button>
+        {user._id === currentUser._id && <button className='edit' onClick={()=>navigate('/profile/updateInfo/'+currentUser.username)}>Edit Info</button>}
       </div>
     </div>
   );

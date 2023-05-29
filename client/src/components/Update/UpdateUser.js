@@ -4,96 +4,97 @@ import { useNavigate } from "react-router-dom";
 import classes from "./UpdateUser.module.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { loginCall } from "../../api-calls";
 
-function Register() {
-  const email = useRef('');
-  const username = useRef('');
-  const password = useRef('');
-  const passwordAgain = useRef('');
-  const occupation = useRef('');
-  const from = useRef('');
+function UpdateUser() {
+  const email = useRef("");
+  const username = useRef("");
+  const { user: currentUser ,dispatch} = useContext(AuthContext);
+
+  const occupation = useRef("");
+  const from = useRef("");
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const { verify } = useContext(AuthContext);
   console.log("registration verify ", verify);
   const values = JSON.parse(localStorage.getItem("fieldvalues"));
+  console.log(values);
+  const [fileCover, setFileCover] = useState(null);
 
-  useEffect(()=>{
+  console.log('currrent user is ',currentUser)
+
+  useEffect(() => {
     localStorage.setItem("fieldvalues", JSON.stringify(values));
-    if(values){
-    email.current.value=values?.email;
-    username.current.value = values?.username;
-    // password.current.value=values?.password;
-    occupation.current.value = values?.occupation;
-    from.current.value=values?.from;
-    // passwordAgain.current.value=values?.passwordAgain;
+    if (values) {
+      email.current.value = values?.email;
+      username.current.value = values?.username;
+      // password.current.value=values?.password;
+      occupation.current.value = values?.occupation;
+      from.current.value = values?.from;
+      // passwordAgain.current.value=values?.passwordAgain;
     }
-  },[])
-  
+  }, []);
+  console.log("verified status is", verify);
 
-  const handler = ()=>{
-    localStorage.setItem("fieldvalues", JSON.stringify({
-      username : username.current.value,
-      email:email.current.value,
-      password:password.current.value,
-      passwordAgain:passwordAgain.current.value,
-      from:from.current.value,
-      occupation:occupation.current.value,
-     
-    }));
-  }
- 
-  
-
-  
-  console.log('field values',values)
-  console.log('file is' ,file)
+  console.log("field values", values);
+  console.log("file is", file);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (verify) {
-      if (passwordAgain.current.value !== password.current.value) {
-        passwordAgain.current.setCustomValidity("Passwords don't match!");
-      } else {
-        const user = {
-          username: username.current.value,
-          email: email.current.value,
-          password: password.current.value,
-          occupation: occupation.current.value,
-          from: from.current.value,
-          profilePicture:file
-          // username:values.username,
-          // email:values.email,
-          // password:values.password,
-          // occuptaion:values.occupation,
-          // from:values.from,
-          // profilePicture:file
-        };
-        if (file) {
-          const data = new FormData();
-          const fileName = Date.now() + file.name;
-          data.append("name", fileName);
-          data.append("file", file);
-          user.profilePicture = fileName;
-          try {
-            await axios.post("/upload", data);
-          } catch (err) {
-            console.log(err);
-          }
-        }
 
-        try {
-          await axios.post("/auth/register", user);
-          navigate("/login");
-        } catch (err) {
-          console.log(err);
-        }
+    const user = {
+      username: username.current.value,
+      email: email.current.value,
+      password: currentUser.password,
+      occupation: occupation.current.value,
+      from: from.current.value,
+      profilePicture: file,
+      coverPicture: fileCover,
+    };
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + file.name;
+      data.append("name", fileName);
+      data.append("file", file);
+      user.profilePicture = fileName;
+      try {
+        await axios.post("/upload", data);
+      } catch (err) {
+        console.log(err);
       }
     }
-    else{
-      alert('please verify otp!')
+    if (fileCover) {
+      const data = new FormData();
+      const fileName = Date.now() + fileCover.name;
+      data.append("name", fileName);
+      data.append("file", fileCover);
+      if (fileCover.type === "image/jpeg") {
+        user.coverPicture = fileName;
+      }
+
+      try {
+        await axios.post("/upload", data);
+      } catch (err) {}
+    }
+    console.log('final over user is ',user);
+    try {
+      await axios.put("/users/update/"+currentUser._id,user);
+      const email = currentUser.email;
+      const password = currentUser.password;
+      loginCall(
+        {
+          email: email,
+          password: password,
+        },
+        dispatch
+      );
+     
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
     }
   };
+
   return (
     <div className={classes.login}>
       <div className={classes.wrapper}>
@@ -111,10 +112,8 @@ function Register() {
               ref={username}
               required
               type="text"
-              onKeyUp={handler}
               // value={values?.username}
               value={username.current.value}
-              
             />
             <input
               placeholder="Email"
@@ -122,17 +121,17 @@ function Register() {
               ref={email}
               required
               type="email"
-              onKeyUp={handler}
+              
               // value={values?.email}
               value={email.current.value}
             />
-           
+
             <input
               placeholder="Occupation"
               className={classes.loginInput}
               ref={occupation}
               required
-              onKeyUp={handler}
+             
               // value={values?.occupation}
               value={occupation.current.value}
             />
@@ -141,11 +140,11 @@ function Register() {
               className={classes.loginInput}
               ref={from}
               required
-              onKeyUp={handler}
+              
               // value={values?.from}
               value={from.current.value}
             />
-            {verify && <div className={classes.imageContainer}>
+            <div className={classes.imageContainer}>
               <label htmlFor="file" style={{ color: "white", fontWeight: 500 }}>
                 Profile Picture
               </label>
@@ -155,21 +154,44 @@ function Register() {
                 id="file"
                 accept=".png,.jpeg,.jpg"
                 onChange={(e) => setFile(e.target.files[0])}
-                
-                
               />
-            </div>}
-            {!verify && <button
-              style={{ color: "white", textAlign: "center" }}
-              className={classes.loginButton}
-              onClick={() => navigate("/forgot/password")}
-            >
-              Update
-            </button>}
+            </div>
+            <div className={classes.imageContainer}>
+              <label htmlFor="file" style={{ color: "white", fontWeight: 500 }}>
+                Cover Picture
+              </label>
+              <input
+                type="file"
+                className={classes.inputImage}
+                id="file"
+                accept=".png,.jpeg,.jpg"
+                onChange={(e) => {
+                  console.log(e.target.files);
+                  return setFileCover(e.target.files[0]);
+                }}
+              />
+            </div>
+            {!verify && (
+              <Link to={"/forgot/password"} state={{ updateuser: true }} className={classes.loginButton}>
+                <button
+                  style={{ color: "white", textAlign: "center" }}
+                  className={classes.loginButton}
+                  // onClick={() => navigate("/forgot/password")}
+                >
+                  OTP Verification
+                </button>
+              </Link>
+            )}
 
-           
-
-           
+            {verify && (
+              <button
+                style={{ color: "white", textAlign: "center" }}
+                className={classes.loginButton}
+                type="submit"
+              >
+                Update
+              </button>
+            )}
           </form>
         </div>
       </div>
@@ -177,4 +199,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default UpdateUser;

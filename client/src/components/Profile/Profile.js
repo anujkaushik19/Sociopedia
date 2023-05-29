@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Topbar from "../Topbar";
 import Sidebar from "../Sidebar/Sidebar";
 import Feed from "../Feed/Feed";
@@ -6,9 +6,11 @@ import RightBar from "../RightBar/RightBar";
 import classes from "./Profile.module.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Profile({bool}) {
   const [user, setUser] = useState({});
+  const {user:currentUser} = useContext(AuthContext);
 
   const params = useParams();
   useEffect(() => {
@@ -21,6 +23,18 @@ function Profile({bool}) {
     fetchUser();
     
   }, [params.username]);
+  useEffect(()=>{
+    
+    localStorage.setItem("fieldvalues", JSON.stringify({
+      username : currentUser?.username,
+      email:currentUser?.email,
+      // password:user.current.value,
+      // passwordAgain:passwordAgain.current.value,
+      from:currentUser?.from,
+      occupation:currentUser?.occupation,
+    }));
+
+  },[])
   
 
   const [cover, setCover] = useState(user.coverPicture === "");

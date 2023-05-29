@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import classes from './components/RightBar/Messages.module.css'
 import OtpVerify from "./pages/ForgotPassword/OtpVerify";
 
+
 function App() {
 
   const messages = document.querySelector(`.${classes.messages}`);
@@ -20,22 +21,25 @@ function App() {
   console.log('messages',messages)
   
   const { user,verify } = useContext(AuthContext);
+
+  
   
   
  
   const navigate = useNavigate();
   console.log('user is',user);
-  useEffect(()=>{
-    localStorage.setItem("fieldvalues", JSON.stringify({
-      username : user?.username,
-      email:user?.email,
-      // password:user.current.value,
-      // passwordAgain:passwordAgain.current.value,
-      from:user?.from,
-      occupation:user?.occupation,
-    }));
+  // useEffect(()=>{
+    
+  //   localStorage.setItem("fieldvalues", JSON.stringify({
+  //     username : user?.username,
+  //     email:user?.email,
+  //     // password:user.current.value,
+  //     // passwordAgain:passwordAgain.current.value,
+  //     from:user?.from,
+  //     occupation:user?.occupation,
+  //   }));
 
-  },[])
+  // },[])
   
 
   // const searchMessage = ()=>{
@@ -86,7 +90,9 @@ function App() {
         <Route path="/profile/:username" element={<Profile bool={true} />} />
         <Route path="/profile/updateInfo/:username" element={<UpdateUser/>}/>
         <Route path='/forgot/password' element={<ForgotPassword/>}/>
+        
         <Route path='/otp/verify' element={<OtpVerify/>}/>
+        
       </Routes>
     </div>
   );

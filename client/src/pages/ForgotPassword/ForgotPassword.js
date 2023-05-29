@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import axios from "axios";
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import { AuthContext } from "../../context/AuthContext";
 
 
@@ -8,10 +8,14 @@ export default function ForgotPassword() {
   const emailInputRef = useRef("");
   const navigate = useNavigate();
   const {dispatch,otp} = useContext(AuthContext);
+  const {state} = useLocation();
+   console.log(state.updateuser)
+  
 
   const submitHandler = async (event) => {
     event.preventDefault();
     const emailValue = emailInputRef.current.value;
+    
     console.log('email value is',emailValue)
     console.log('anuj')
    
@@ -29,7 +33,7 @@ export default function ForgotPassword() {
       console.log(err);
     }
    
-    navigate('/otp/verify')
+    navigate('/otp/verify',{state:{updateUser:state.updateuser}});
     // navigate('/register')
   
   };
