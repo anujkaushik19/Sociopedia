@@ -27,6 +27,7 @@ export default function OtpVerify() {
     if (verify) {
       console.log("val is", update);
       if (update) {
+        console.log('update triggered');
         navigate("/profile/updateInfo/" + user.username);
       } else if (forgotpassword) {
         navigate("/set/password");

@@ -11,6 +11,9 @@ function UserInfo({ user }) {
   const {user:currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
 
+ 
+  
+
   return (
     <div className="profileLeftBar">
       <div className="NotificationsContainer3">
@@ -58,7 +61,7 @@ function UserInfo({ user }) {
               marginTop: 17,
             }}
           >
-            10
+            {user?.followings?.length}
           </p>
         </div>
 
@@ -80,7 +83,7 @@ function UserInfo({ user }) {
               marginTop: 17,
             }}
           >
-            12
+            {user?.followers?.length}
           </p>
         </div>
         <div

@@ -49,6 +49,10 @@
   gap: 1rem;
   margin-bottom: 1rem;
   align-items: start;
+  cursor: pointer;
+  list-style: none;
+  text-decoration: none;
+  color: black;
 }
 .message:last-child {
   margin: 0;
@@ -61,7 +65,7 @@
   font-weight: 500;
 }
 
-.active2 {
+/* .active2 {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -69,13 +73,14 @@
   position: absolute;
   bottom: 6px;
   right: 11px;
-}
+} */
 .message-requests{
     color: blue;
 }
 .profile-photo {
-  position: relative;
-  overflow: visible;
+  /* position: relative;
+  overflow: visible; */
+
 }
 .profile-photo img {
   width: 32px;

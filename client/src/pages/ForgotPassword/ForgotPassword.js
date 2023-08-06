@@ -40,6 +40,9 @@ export default function ForgotPassword() {
       navigate('/otp/verify',{state:{forgotpassword:state.forgotpassword}});
 
     }
+    navigate('/otp/verify');
+
+    
     // navigate('/register')
   
   };

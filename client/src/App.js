@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import classes from './components/RightBar/Messages.module.css'
 import OtpVerify from "./pages/ForgotPassword/OtpVerify";
 import SetPassword from "./components/resetPassword/SetPassword";
+import Messenger2 from "./pages/Messenger/Messenger2";
 
 
 function App() {
@@ -85,6 +86,15 @@ function App() {
             <>
               {!user && <Register/>}
               {user && <Messenger />}
+            </>
+          }
+        />
+        <Route
+          path="/usermessage"
+          element={
+            <>
+              {!user && <Register/>}
+              {user && <Messenger2 />}
             </>
           }
         />

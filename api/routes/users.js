@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 //update user
 router.put("/:id", async (req, res) => {
+  console.log('update called');
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
@@ -73,7 +74,7 @@ router.get("/", async (req, res) => {
 // get user's friends
 
 router.get("/friends/:userId", async (req, res) => {
-  console.log('triggered by')
+  console.log('kaushik')
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
@@ -83,8 +84,8 @@ router.get("/friends/:userId", async (req, res) => {
     );
     const friendList = [];
     friends.map((friend) => {
-      const { _id, username, profilePicture } = friend;
-      friendList.push({ _id, username, profilePicture });
+      const { _id, username, profilePicture,occupation } = friend;
+      friendList.push({ _id, username, profilePicture,occupation });
     });
     res.status(200).json(friendList);
   } catch (err) {
