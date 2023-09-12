@@ -182,7 +182,7 @@ function UserInfo({ user }) {
               marginTop: 17,
             }}
           >
-            10
+            
           </p>
         </div>
         <div
@@ -208,7 +208,7 @@ function UserInfo({ user }) {
               marginTop: 17,
             }}
           >
-            10
+            
           </p>
         </div>
         {user._id === currentUser._id && <button className='edit' onClick={()=>navigate('/profile/updateInfo/'+currentUser.username)}>Edit Info</button>}

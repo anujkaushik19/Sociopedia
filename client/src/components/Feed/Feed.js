@@ -24,6 +24,8 @@ function Feed({ username }) {
     fetchPosts();
   }, [username, user._id]);
 
+  console.log("posts are ",posts);
+
   return (
     <div className={classes.feed}>
       <div className={classes.wrapper}>

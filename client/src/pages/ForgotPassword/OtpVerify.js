@@ -23,9 +23,9 @@ export default function OtpVerify() {
     } else {
       dispatch({ type: "VERIFY", payload: true });
     }
-    console.log('verified is',verify);
+    
     if (verify) {
-      console.log("val is", update);
+      
       if (update) {
         console.log('update triggered');
         navigate("/profile/updateInfo/" + user.username);
@@ -73,7 +73,7 @@ export default function OtpVerify() {
         >
           <input
             type={"number"}
-            placeholder="Enter yout otp"
+            placeholder="Enter your otp"
             style={{
               flex: 1,
               minWidth: "40px",

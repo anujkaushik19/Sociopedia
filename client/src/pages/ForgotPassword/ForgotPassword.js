@@ -16,15 +16,13 @@ export default function ForgotPassword() {
     event.preventDefault();
     const emailValue = emailInputRef.current.value;
     
-    console.log('email value is',emailValue)
-    console.log('anuj')
    
     try {
       const response = await axios.post("/auth/email", {
         email: emailValue,
       });
 
-      console.log('mail response',response.data)
+      console.log('mail response',response.data);
      
       dispatch({ type: "OTP", payload: response.data });
       

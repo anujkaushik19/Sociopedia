@@ -40,7 +40,7 @@ const AuthReducer = (state, action) => {
         },
       };
     case "OTP": {
-      console.log("inside");
+     
       return {
         ...state,
         otp: action.payload,

@@ -47,6 +47,13 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
+// app.post("/api/upload",async (req,res)=>{
+//   // console.log("image data is ",req.body.name);
+//   console.log("file is ",req.body.data);
+// })
+
+
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

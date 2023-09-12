@@ -64,21 +64,19 @@ function Register() {
           occupation: occupation.current.value,
           from: from.current.value,
           profilePicture: file,
-          // username:values.username,
-          // email:values.email,
-          // password:values.password,
-          // occuptaion:values.occupation,
-          // from:values.from,
-          // profilePicture:file
         };
         if (file) {
+          console.log("file is ",file)
           const data = new FormData();
           const fileName = Date.now() + file.name;
           data.append("name", fileName);
           data.append("file", file);
           user.profilePicture = fileName;
           try {
-            await axios.post("/upload", data);
+            await axios.post("/upload", {
+              name:fileName,
+              data:data
+            });
           } catch (err) {
             console.log(err);
           }
@@ -114,7 +112,6 @@ function Register() {
               required
               type="text"
               onKeyUp={handler}
-              // value={values?.username}
               value={username.current.value}
             />
             <input
@@ -180,7 +177,7 @@ function Register() {
                   className={classes.inputImage}
                   id="file"
                   accept=".png,.jpeg,.jpg"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={(e) => setFile(e.target.files[0])}   
                 />
               </div>
             )}

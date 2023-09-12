@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
     });
 
     //save user and respond
-    console.log('new iser is',newUser);
+    
     const user = await newUser.save();
     console.log("done");
     res.status(200).json(user);
@@ -42,14 +42,21 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(404).json("user not found");
+    if(!user){
+      res.status(404).json("user not found");
+      return;
+    }
 
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
     const validity = req.body.password === user.password;
-    !validPassword && !validity &&  res.status(400).json("wrong password");
+    // !validPassword && !validity &&  res.status(400).json("wrong password");
+    if(!validPassword && !validity){
+      res.status(400).json("wrong password");
+      return;
+    }
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
@@ -93,13 +100,13 @@ router.put("/update/:userId", async (req, res) => {
 // send otp verification email
 
 router.post("/email", async (req, res) => {
-  console.log('triggered')
+  
   try {
     const { email } = req.body;
     const otp = Math.floor(Math.random() * 10000);
     if (otp < 1000 || otp > 9999) otp = 6969;
-    console.log(otp);
-
+    
+   console.log('inside email');
     const response = await axios({
       method: "post",
       url: "https://api.sendinblue.com/v3/smtp/email",

@@ -30,26 +30,7 @@ function App() {
  
   const navigate = useNavigate();
   console.log('user is',user);
-  // useEffect(()=>{
-    
-  //   localStorage.setItem("fieldvalues", JSON.stringify({
-  //     username : user?.username,
-  //     email:user?.email,
-  //     // password:user.current.value,
-  //     // passwordAgain:passwordAgain.current.value,
-  //     from:user?.from,
-  //     occupation:user?.occupation,
-  //   }));
-
-  // },[])
   
-
-  // const searchMessage = ()=>{
-  //   const val = messageSearch.value.toLowerCase();
-  //   console.log(val)
-  // }
-  // messageSearch.addEventListener('keyup',searchMessage);
-
   return (
     <div>
       <Routes>
