@@ -13,7 +13,7 @@ const messageRoute = require("./routes/messages");
 const router = express.Router();
 const path = require("path");
 
-dotenv.config();
+dotenv.config({path:'./config/config.env'});
 
 mongoose.connect(
   process.env.MONGO_URL,
