@@ -100,6 +100,8 @@ router.put("/update/:userId", async (req, res) => {
 // send otp verification email
 
 router.post("/email", async (req, res) => {
+
+  console.log('inside email')
   
   try {
     const { email } = req.body;
