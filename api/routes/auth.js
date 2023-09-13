@@ -51,9 +51,10 @@ router.post("/login", async (req, res) => {
       req.body.password,
       user.password
     );
-    const validity = req.body.password === user.password;
+    // const validity = req.body.password === user.password;
     // !validPassword && !validity &&  res.status(400).json("wrong password");
-    if(!validPassword && !validity){
+    
+    if(!validPassword){
       res.status(400).json("wrong password");
       return;
     }
